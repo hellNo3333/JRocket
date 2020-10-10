@@ -50,7 +50,7 @@ class Communicator {
                 mExecutorService.execute(mSender);
                 mExecutorService.execute(mReceiver);
             } catch (RejectedExecutionException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 disconnect();
             }
             this.running = true;
@@ -82,7 +82,7 @@ class Communicator {
             jsonObject.put(DATA, data);
             mQueue.put(jsonObject);
         } catch (JSONException | InterruptedException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -114,12 +114,12 @@ class Communicator {
                     try {
                         outputStreamWriter.close();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        //e1.printStackTrace();
                     }
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     break;
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
             disconnect();
@@ -165,17 +165,17 @@ class Communicator {
                     retry = 0;
                 } catch (SocketTimeoutException s) {
                     retry++;
-                    System.out.println("Time out on read. Trying again  " + retry);
+                    //System.out.println("Time out on read. Trying again  " + retry);
                 } catch (IOException e) {
                     try {
                         bufferedReader.close();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        //e1.printStackTrace();
                     }
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     break;
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     break;
                 }
             }
@@ -189,11 +189,12 @@ class Communicator {
                 try {
                     mSocket.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
             mClientListener.onClientDisconnect(getJRocket());
             running = false;
+            mExecutorService.shutdownNow();
         }
     }
 }

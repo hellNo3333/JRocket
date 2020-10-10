@@ -75,7 +75,7 @@ public class JRocketClient implements JRocket {
                 disconnected = false;
                 mRocketClient.onConnect();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 onConnectFailed();
             }
         }

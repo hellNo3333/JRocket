@@ -1,6 +1,6 @@
 package xyz.farhanfarooqui.JRocket;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;

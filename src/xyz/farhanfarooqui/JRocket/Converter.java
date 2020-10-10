@@ -14,7 +14,7 @@ public class Converter {
         try {
             return new JSONObject(json);
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
     }

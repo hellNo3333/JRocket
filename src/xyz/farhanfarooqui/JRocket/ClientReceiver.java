@@ -30,10 +30,10 @@ class ClientReceiver extends Thread {
                 Socket socket = serverSocket.accept();
                 socket.setSoTimeout(rocketServer.getHeartBeatRate());
                 Client client = Client.createClient(Utils.createID(), rocketServer, socket, executorService);
-                System.out.println(System.currentTimeMillis() - t1);
+                //System.out.println(System.currentTimeMillis() - t1);
                 rocketServer.onConnect(client);
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 rocketServer.onServerStop();
             }
         }
