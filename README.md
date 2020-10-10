@@ -1,3 +1,7 @@
+# Changes
+
+This version of JRocket is essentially the same, but without the console spam. On top of that, the executor is shut down when disconnect() is called in the Communicator, which, as a result, lets the client program terminate on its own when the connection is closed.
+
 # JRocket 
 
 `JRocket` is an event-driven Java Socket library. Execute events in Server and Clients and send data payloads with it. You can use it in Android too.
