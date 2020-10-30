@@ -19,11 +19,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class JRocketServer implements JRocket {
 
-    private static JRocketServer mRocketServer;
-    private static ServerSocket mServerSocket;
-    private static volatile ArrayList<Client> mClients;
-    private static HashMap<String, OnReceiveListener> mEventLists;
-    private static ExecutorService mExecutorService;
+    private ServerSocket mServerSocket;
+    private volatile ArrayList<Client> mClients;
+    private HashMap<String, OnReceiveListener> mEventLists;
+    private ExecutorService mExecutorService;
     private int heartBeatRate = 0;
 
     // Listeners
@@ -32,20 +31,17 @@ public class JRocketServer implements JRocket {
     private OnClientConnectListener mOnClientConnectListener;
     private OnClientDisconnectListener mOnClientDisconnectListener;
 
-    private JRocketServer(int coreThreadPoolSize) {
+    private JRocketServer(int port, int coreThreadPoolSize) throws IOException {
         mClients = new ArrayList<>();
         mEventLists = new HashMap<>();
         mExecutorService = Executors.newFixedThreadPool(coreThreadPoolSize);
+        mServerSocket = new ServerSocket(port);
+        ClientReceiver clientReceiver = new ClientReceiver(this, mServerSocket, mExecutorService);
+        clientReceiver.start();
     }
 
     public static JRocketServer listen(int port, int coreThreadPoolSize) throws IOException {
-        if (mRocketServer == null) {
-            mRocketServer = new JRocketServer(coreThreadPoolSize);
-            mServerSocket = new ServerSocket(port);
-            ClientReceiver clientReceiver = new ClientReceiver(mRocketServer, mServerSocket, mExecutorService);
-            clientReceiver.start();
-        }
-        return mRocketServer;
+        return new JRocketServer(port, coreThreadPoolSize);
     }
 
     /**
@@ -99,7 +95,8 @@ public class JRocketServer implements JRocket {
     }
 
     private void disconnectClients() {
-        for (Client client : mClients) {
+        ArrayList<Client> tmpClients = new ArrayList<>(mClients);
+        for (Client client : tmpClients) {
             client.disconnect();
         }
     }
