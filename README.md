@@ -12,10 +12,6 @@ This version of JRocket is essentially the same, but without the console spam. O
 * **Asynchronous.**
 * **Heartbeat mechanism. Server and client will be able to detect if one of them is disconnected**
 
-## Download
-
-Download JRocket.jar from <a href="https://github.com/hellNo3333/JRocket/releases/download/v1.0/JRocket-fork.jar">here.</a>
-
 ## How to use
 
 ### Server
