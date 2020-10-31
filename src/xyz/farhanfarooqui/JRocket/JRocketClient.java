@@ -13,12 +13,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class JRocketClient implements JRocket {
-    private static JRocketClient mRocketClient;
-    private static Socket mSocket;
-    private static HashMap<String, OnReceiveListener> mEventLists;
-    private static Communicator mCommunicator;
-    private static boolean mKeepAlive = false;
-    private static ExecutorService mExecutorService;
+    private JRocketClient mRocketClient;
+    private Socket mSocket;
+    private HashMap<String, OnReceiveListener> mEventLists;
+    private Communicator mCommunicator;
+    private boolean mKeepAlive = false;
+    private ExecutorService mExecutorService;
     private RocketClientListener mRocketClientListener;
     private int mHeartBeatRate = 0;
     private String mHost;
@@ -30,7 +30,7 @@ public class JRocketClient implements JRocket {
         mEventLists = new HashMap<>();
     }
 
-    private static Client.ClientListener clientListener = new Client.ClientListener() {
+    private Client.ClientListener clientListener = new Client.ClientListener() {
         @Override
         public void onEventReceive(JRocket JRocket, String event, JSONObject data) {
             ((JRocketClient) JRocket).onReceiveEvent(event, data);
@@ -51,6 +51,7 @@ public class JRocketClient implements JRocket {
         this.mPort = port;
         this.mRocketClientListener = rocketClientListener;
         mExecutorService = Executors.newFixedThreadPool(2);
+        mRocketClient = this;
     }
 
 
@@ -86,8 +87,7 @@ public class JRocketClient implements JRocket {
      * Call {@link #connect()} method to connect to the host
      */
     public static JRocketClient prepare(String host, int port) {
-        mRocketClient = new JRocketClient(host, port);
-        return mRocketClient;
+        return new JRocketClient(host, port);
     }
 
     /**
@@ -95,8 +95,7 @@ public class JRocketClient implements JRocket {
      * Call {@link #connect()} method to connect to the host
      */
     public static JRocketClient prepare(String host, int port, RocketClientListener rocketClientListener) {
-        mRocketClient = new JRocketClient(host, port, rocketClientListener);
-        return mRocketClient;
+        return new JRocketClient(host, port, rocketClientListener);
     }
 
     /**
